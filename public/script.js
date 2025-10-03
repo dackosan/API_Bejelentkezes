@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("loginButton").addEventListener("click", async () => {
-    let gmail = document.getElementById("loginGmail").value;
-    let pass = document.getElementById("loginPassword").value;
+    let gmailInput = document.getElementById("loginGmail");
+    let passInput = document.getElementById("loginPassword");
 
     try {
       const response = await fetch("http://localhost:3000/login", {
@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: gmail,
-          password: pass,
+          email: gmailInput.value,
+          password: passInput.value,
         }),
       });
 
@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         console.log(data);
         alert("Sikeres bejelentkezés!");
+
+        gmailInput.value = "";
+        passInput.value = "";
       } else {
         console.log(data.message);
         alert("Hibás belépési adatok!");
@@ -48,9 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", async () => {
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      let gmail = document.getElementById("registGmail").value;
-      let pass = document.getElementById("registPassword").value;
-      let passAgain = document.getElementById("registPasswordAgain").value;
+      let gmailInput = document.getElementById("registGmail");
+      let passInput = document.getElementById("registPassword");
+      let passAgainInput = document.getElementById("registPasswordAgain");
+
+      let gmail = gmailInput.value;
+      let pass = passInput.value;
+      let passAgain = passAgainInput.value;
 
       let validPassword = pass.length >= 8 && /\d/.test(pass);
       let validPasswordAgain = passAgain.length >= 8 && /\d/.test(passAgain);
@@ -80,6 +87,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (response.ok) {
           console.log(data.message);
           alert("Sikeres regisztráció!");
+
+          gmailInput.value = "";
+          passInput.value = "";
+          passAgainInput.value = "";
         } else {
           console.log(data.message);
           alert(data.message);
