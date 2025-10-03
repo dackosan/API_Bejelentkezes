@@ -42,6 +42,20 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (pass != passAgain) {
       alert("A két Jelszó nem egyezik meg!");
     } else {
+      try {
+        const response = await fetch("http://localhost:3000/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: gmail,
+            password: pass
+          })
+        });
+      } catch (e) {
+        console.log(e);
+      }
       alert("Sikeres regisztráció!");
     }
   });

@@ -25,18 +25,21 @@ app.get("/users/:id", (req, res) => {
   res.status(200).json(user);
 });
 
-app.post("/users", async (req, res) => {
+app.post("/register", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "Invalid data!" });
   }
 
-  const salt = await bcrypt.genSalt();
-  const hashedPass = await bcrypt.hash(password, salt);
-  const saved = db.saveUser(email, hashedPass);
-  const user = db.getUserById(saved.lastInsertRowid);
+  const user = db.getUserByEmail(email);
+  if (!user) {
+    const salt = await bcrypt.genSalt();
+    const hashedPass = await bcrypt.hash(password, salt);
+    db.saveUser(email, hashedPass);
+    return res.status(200).json({ message: "User created!" });
+  }
 
-  res.status(200).json(user);
+  return res.status(404).json({ message: "Email is already used!" });
 });
 
 app.post("/login", (req, res) => {
