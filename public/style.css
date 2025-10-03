@@ -1,0 +1,110 @@
+body {
+  background-color: cadetblue;
+  margin: 0;
+}
+
+header {
+  background-color: lightblue;
+  padding: 10px;
+  text-align: right;
+}
+
+header button {
+  border: 1px solid rgb(2, 194, 2);
+  padding: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 2px 5px;
+  background-color: rgb(0, 215, 0);
+  text-decoration: underline;
+}
+
+header button:hover {
+  background-color: rgb(0, 190, 0);
+  border: 1px solid rgb(2, 169, 2);
+  cursor: pointer;
+}
+
+button:first-child {
+  background-color: blue;
+  border: 1px solid rgb(0, 0, 228);
+  text-decoration: none;
+}
+
+button:first-child:hover {
+  background-color: rgb(0, 0, 190);
+  border: 1px solid rgb(0, 0, 163);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.card {
+  display: none;
+  border: 1px solid rgb(120, 120, 132);
+  border-radius: 20px;
+  box-shadow: 3px 3px 3px rgb(120, 115, 127);
+  width: 440px;
+  margin: auto;
+  margin-top: 50px;
+  background-color: lightblue;
+  text-align: center;
+  padding: 10px;
+  font-size: large;
+}
+
+.card div {
+  width: 210px;
+  text-align: left;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.inputBox {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+#loginButton {
+  background-color: blue;
+  color: white;
+  border-radius: 20px;
+  padding: 8px;
+  border: 1px solid rgb(0, 0, 228);
+  font-size: 15px;
+  margin: 10px 0px;
+  width: 100px;
+}
+
+#loginButton:hover {
+  background-color: rgb(0, 0, 190);
+  border: 1px solid rgb(0, 0, 163);
+  cursor: pointer;
+}
+
+#registButton {
+  background-color: rgb(0, 215, 0);
+  color: white;
+  border-radius: 20px;
+  padding: 8px;
+  border: 1px solid rgb(2, 194, 2);
+  font-size: 15px;
+  margin: 10px 0px;
+  width: 100px;
+}
+
+#registButton:hover {
+  background-color: rgb(0, 190, 0);
+  border: 1px solid rgb(2, 169, 2);
+  cursor: pointer;
+}
+
+.helping {
+  font-size: 13px;
+}
