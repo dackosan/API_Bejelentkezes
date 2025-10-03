@@ -26,38 +26,52 @@ app.get("/users/:id", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: "Invalid data!" });
-  }
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: "Invalid data!" });
+    }
 
-  const user = db.getUserByEmail(email);
-  if (!user) {
-    const salt = await bcrypt.genSalt();
-    const hashedPass = await bcrypt.hash(password, salt);
-    db.saveUser(email, hashedPass);
-    return res.status(200).json({ message: "User created!" });
-  }
+    const user = await db.getUserByEmail(email);
+    if (!user) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPass = await bcrypt.hash(password, salt);
+      await db.saveUser(email, hashedPass);
+      return res.status(201).json({ message: "User created!" });
+    }
 
-  return res.status(404).json({ message: "Email is already used!" });
+    return res.status(409).json({ message: "Email is already used!" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error!" });
+  }
 });
 
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: "Invalid credential!" });
-  }
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: "Invalid credential!" });
+    }
 
-  const user = db.getUserByEmail(email);
-  if (!user) {
-    return res.status(400).json({ message: "Invalid credential!" });
-  }
+    const user = await db.getUserByEmail(email);
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credential!" });
+    }
 
-  if (!bcrypt.compareSync(password, user.password)) {
-    return res.status(400).json({ message: "Invalid credential!" });
-  }
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(400).json({ message: "Invalid credential!" });
+    }
 
-  res.status(200).json(user);
+    return res.status(200).json({
+      message: "Login successful!",
+      user: { id: user.id, email: user.email },
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error!" });
+  }
 });
 
 app.listen(PORT, () => {
